@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Profile - SmartCrop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: rgba(110, 123, 110, 0.244);
+            color: #fff;
+        }
+        header {
+            background-color: #1a1a1a;
+            padding: 5px 0;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            background-color: #333;
+            justify-content: center;
+            gap: 20px;
+        }
+        nav a {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 10px;
+            transition: background-color 0.3s, transform 0.3s;
+            color: white;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: green;
+            transform: scale(1.1);
+        }
+        h1 {
+            color: #fff;
+            text-shadow: 5px 5px 5px #ffffff;
+            font-size: 35px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        h1 img {
+            width: 250px;
+            height: auto;
+            padding: 0px;
+        }
+        .profile-container {
+            background-color: #33333341;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            margin: 40px auto;
+            padding: 30px;
+            color: white;
+        }
+        .profile-details-box {
+            background-color: #3333338a;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            align-items: center;
+        }
+        .profile-container h2 {
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .profile-picture {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 20px auto;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #4caf50;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .edit-picture {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .edit-picture:hover {
+            background-color: #4caf50;
+        }
+        .profile-details label {
+            font-weight: bold;
+            color: #4caf50;
+            font-size: 21px;
+            text-align: center;
+        }
+        .profile-details span {
+            margin-left: 15px;
+            font-size: 18px;
+            text-align: center;
+        }
+        .Details{
+            padding: 10px;
+            display: grid;
+            text-align: center;
+            align-content: center;
+            background-color: #3333338a;
+            box-shadow: 0px 0.5px 2px 1px #ddd;
+            border-radius: 0.5cm;
+            margin-top: 10px;
+        }
+        .edit-btn {
+            display: inline-block;
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .edit-btn:hover {
+            background-color: #388e3c;
+        }
+        .edit-form {
+            display: none;
+            margin-top: 20px;
+        }
+        .edit-form input {
+            width: calc(100% - 40px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .save-btn {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .save-btn:hover {
+            background-color: #388e3c;
+        }
+        .cancel-btn {
+            background-color: #f44336;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .cancel-btn:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>
+            <img src="smartcrop.png" alt="SmartCrop" class="logo">
+        </h1>
+    </header>
+    <nav>
+        <a href="homepage.html">Home</a>
+        <a href="checksuitability.html">Check Suitability</a>
+        <a href="notification.html">Notifications</a>
+        <a href="profile.html">Profile</a>
+    </nav>
+
+    <div class="profile-container">
+        <div class="profile-picture">
+            <img src="farmer.jpg" alt="Farmer Profile Picture">
+            <span class="edit-picture" onclick="editProfilePicture()">✎</span>
+        </div>
+
+        <h2 class="name" id="name">Rishabh Mishra</h2>
+
+        <div class="profile-details-box">
+            <div class="profile-details">
+                <div class="Details">
+                    <label>Age</label>
+                    <span id="age">20</span>
+                </div>
+                <div class="Details">
+                    <label>Phone</label>
+                    <span id="phone">902191627</span>
+                </div>
+                <div class="Details">
+                    <label>Email</label>
+                    <span id="email">rishabh.mishra@example.com</span>
+                </div>
+                <div class="Details">
+                    <label>Location</label>
+                    <span id="location">Madhya Pradesh, India</span>
+                </div>
+                <div class="Details">
+                    <label>Farm Size</label>
+                    <span id="farmSize">15 acres</span>
+                </div>
+                <div class="Details">
+                    <label>Primary Crop</label>
+                    <span id="primaryCrop">Wheat</span>
+                </div>
+            </div>
+        </div>
+
+        <a href="#" class="edit-btn" onclick="toggleEditForm()">Edit Profile</a>
+
+        <div class="edit-form" id="editForm">
+            <h3>Edit Details</h3>
+            <input type="text" id="editName" placeholder="Enter new name">
+            <input type="text" id="editAge" placeholder="Enter new age">
+            <input type="text" id="editPhone" placeholder="Enter new phone number">
+            <input type="email" id="editEmail" placeholder="Enter new email">
+            <input type="text" id="editLocation" placeholder="Enter new location">
+            <input type="text" id="editFarmSize" placeholder="Enter farm size">
+            <input type="text" id="editPrimaryCrop" placeholder="Enter primary crop">
+            <button class="save-btn" onclick="saveDetails()">Save</button>
+            <button class="cancel-btn" onclick="toggleEditForm()">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleEditForm() {
+            const form = document.getElementById('editForm');
+            form.style.display = (form.style.display === 'none' || form.style.display === '') ? 'block' : 'none';
+        }
+
+        function editProfilePicture() {
+            alert('Feature to change profile picture coming soon!');
+        }
+
+        function saveDetails() {
+            const name = document.getElementById('editName').value;
+            const age = document.getElementById('editAge').value;
+            const phone = document.getElementById('editPhone').value;
+            const email = document.getElementById('editEmail').value;
+            const location = document.getElementById('editLocation').value;
+            const farmSize = document.getElementById('editFarmSize').value;
+            const primaryCrop = document.getElementById('editPrimaryCrop').value;
+
+            if (name) document.getElementById('name').textContent = name;
+            if (age) document.getElementById('age').textContent = age;
+            if (phone) document.getElementById('phone').textContent = phone;
+            if (email) document.getElementById('email').textContent = email;
+            if (location) document.getElementById('location').textContent = location;
+            if (farmSize) document.getElementById('farmSize').textContent = farmSize;
+            if (primaryCrop) document.getElementById('primaryCrop').textContent = primaryCrop;
+
+            toggleEditForm();
+        }
+    </script>
+</body>
+</html>
