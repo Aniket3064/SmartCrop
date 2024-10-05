@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login System</title>
+    <style>
+       body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to right, #2c3e50, #4ca1af);
+    color: #fff;
+}
+
+.container {
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.5)); /* Gradient background for the container */
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    width: 350px; /* Slightly wider for better layout */
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #ffffff; /* White color for contrast */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
+    font-size: 28px; /* Increased font size for headings */
+}
+
+input {
+    width: 100%;
+    padding: 12px; /* Increased padding for inputs */
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.1); /* Light transparent background */
+    color: #ffffff; /* White text for input */
+    font-size: 16px; /* Larger font for better readability */
+    transition: background 0.3s; /* Smooth background transition */
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.7); /* Placeholder text color */
+}
+
+input:hover,
+input:focus {
+    background: rgba(255, 255, 255, 0.3); /* Change background on hover/focus */
+}
+
+button {
+    background: linear-gradient(45deg, #4CAF50, #388e3c); /* Gradient for the button */
+    border: none;
+    padding: 12px; /* Increased padding for buttons */
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px; /* Increased font size */
+    transition: background 0.3s, transform 0.3s; /* Smooth transition */
+}
+
+button:hover {
+    background: linear-gradient(45deg, #388e3c, #4CAF50); /* Reverse gradient on hover */
+    transform: scale(1.02); /* Slightly scale up on hover */
+}
+
+a {
+    color: #4CAF50; /* Link color */
+    text-decoration: none;
+    font-size: 14px; /* Font size for links */
+}
+
+a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+.error {
+    color: red;
+    margin-top: 10px;
+    font-weight: bold; /* Make error messages bold */
+}
+    </style>
+</head>
+<body>
+
+    <!-- Sign-Up Section -->
+    <div class="container" id="signup-container">
+        <h2>Sign Up</h2>
+        <form id="signup-form">
+            <input type="text" id="signup-username" placeholder="Username" required>
+            <input type="password" id="signup-password" placeholder="Password" required>
+            <button type="submit">Sign Up</button>
+            <div class="error" id="signup-error"></div>
+        </form>
+        <p>Already have an account? <a href="#" id="go-to-login">Log In</a></p>
+    </div>
+
+    <!-- Login Section -->
+    <div class="container" id="login-container" style="display: none;">
+        <h2>Log In</h2>
+        <form id="login-form">
+            <input type="text" id="login-username" placeholder="Username" required>
+            <input type="password" id="login-password" placeholder="Password" required>
+            <button type="submit">Log In</button>
+            <div class="error" id="login-error"></div>
+        </form>
+        <p>Don't have an account? <a href="#" id="go-to-signup">Sign Up</a></p>
+    </div>
+
+    <script>
+        const signupForm = document.getElementById('signup-form');
+        const loginForm = document.getElementById('login-form');
+        const signupContainer = document.getElementById('signup-container');
+        const loginContainer = document.getElementById('login-container');
+        const signupError = document.getElementById('signup-error');
+        const loginError = document.getElementById('login-error');
+
+        signupForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('signup-username').value;
+            const password = document.getElementById('signup-password').value;
+
+            if (validatePassword(password)) {
+                localStorage.setItem('username', username);
+                localStorage.setItem('password', password);
+                signupContainer.style.display = 'none';
+                loginContainer.style.display = 'block';
+                alert('Sign up successful! You can now log in.');
+            } else {
+                signupError.textContent = "Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, one special character, and one number.";
+            }
+        });
+
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            const storedUsername = localStorage.getItem('username');
+            const storedPassword = localStorage.getItem('password');
+
+            if (username === storedUsername && password === storedPassword) {
+                window.location.href = "homepage.html"; // Redirect to homepage
+            } else {
+                loginError.textContent = "Invalid username or password!";
+            }
+        });
+
+        document.getElementById('go-to-login').addEventListener('click', function(event) {
+            event.preventDefault();
+            signupContainer.style.display = 'none';
+            loginContainer.style.display = 'block';
+        });
+
+        document.getElementById('go-to-signup').addEventListener('click', function(event) {
+            event.preventDefault();
+            loginContainer.style.display = 'none';
+            signupContainer.style.display = 'block';
+        });
+
+        function validatePassword(password) {
+            const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            return passwordPattern.test(password);
+        }
+    </script>
+</body>
+</html>
