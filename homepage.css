@@ -1,0 +1,97 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to right, #2c3e50, #4ca1af); /* Background gradient */
+    color: #fff;
+}
+header {
+    background-color: #1a1a1a;
+    padding: 5px 0;
+    text-align: center;
+}
+nav {
+    display: flex;
+    background-color: #333;
+    justify-content: center;
+    gap: 20px;
+}
+nav a {
+    display: inline-block;
+    padding: 15px 30px;font-size: 18px;
+    border-radius: 10px; /* Rounded corners */
+    transition: background-color 0.3s, transform 0.3s;
+    color: white;
+    text-decoration: none;
+}
+nav a:hover {
+    background-color: green; /* Change background color on hover */
+    color: white; /* Change text color on hover */
+    transform: scale(1.1);
+}
+h1 {
+    color: #ffffff; /* White color for better contrast */
+    text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5), /* Subtle shadow for depth */
+                0 0 25px rgba(76, 175, 80, 0.7); /* Glow effect */
+    font-size: 35px; /* Increased font size for emphasis */
+    font-weight: bold; /* Bold text */
+    text-align: center; /* Center align the heading */
+    letter-spacing: 1px; /* Slightly increase letter spacing */
+    margin-bottom: 20px;
+}
+h1 img{
+    width: 250px;
+    height: auto;
+    padding: 0px;
+}
+.cards {
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.card {
+    width: 22%;
+    background-color: #3333338a; /* Dark background */
+    border-radius: 12px;
+    padding: 20px;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: white;
+}
+.dashboard{
+    text-align: center;
+}
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.5);
+}
+
+.card h2 {
+    font-size: 20px; /* Bigger font */
+    font-weight: bold; /* Bolder text */
+    margin-bottom: 20px;
+}
+
+.circle {
+    display: inline-block;
+    margin: auto;
+    width: 100px;
+    height: 100px;
+    border: 6px solid #32cd32dc; /* Green border */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    transition: border-color 0.3s ease;
+}
+
+/* Hover effects on circle */
+.card:hover .circle {
+    border-color: #228B22; /* Darker green on hover */
+}

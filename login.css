@@ -1,0 +1,82 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to right, #2c3e50, #4ca1af);
+    color: #fff;
+}
+
+.container {
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.5)); /* Gradient background for the container */
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    width: 350px; /* Slightly wider for better layout */
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #ffffff; /* White color for contrast */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
+    font-size: 28px; /* Increased font size for headings */
+}
+
+input {
+    width: 100%;
+    padding: 12px; /* Increased padding for inputs */
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.1); /* Light transparent background */
+    color: #ffffff; /* White text for input */
+    font-size: 16px; /* Larger font for better readability */
+    transition: background 0.3s; /* Smooth background transition */
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.7); /* Placeholder text color */
+}
+
+input:hover,
+input:focus {
+    background: rgba(255, 255, 255, 0.3); /* Change background on hover/focus */
+}
+
+button {
+    background: linear-gradient(45deg, #4CAF50, #388e3c); /* Gradient for the button */
+    border: none;
+    padding: 12px; /* Increased padding for buttons */
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px; /* Increased font size */
+    transition: background 0.3s, transform 0.3s; /* Smooth transition */
+}
+
+button:hover {
+    background: linear-gradient(45deg, #388e3c, #4CAF50); /* Reverse gradient on hover */
+    transform: scale(1.02); /* Slightly scale up on hover */
+}
+
+a {
+    color: #4CAF50; /* Link color */
+    text-decoration: none;
+    font-size: 14px; /* Font size for links */
+}
+
+a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+.error {
+    color: red;
+    margin-top: 10px;
+    font-weight: bold; /* Make error messages bold */
+}
