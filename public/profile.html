@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Profile - SmartCrop</title>
+    <link rel="stylesheet" href="styles/profile.css">
+</head>
+<body>
+    <header>
+        <h1>
+            <img src="images/smartcrop.png" alt="SmartCrop Image">
+        </h1>
+    </header>
+    <nav>
+        <a href="homepage.html">Home</a>
+        <a href="checksuitability.html">Check Suitability</a>
+        <a href="notification.html">Notifications</a>
+        <a href="profile.html">Profile</a>
+    </nav>
+
+    <div class="profile-container">
+        <div class="profile-picture">
+            <img src="images/farmer.jpg" alt="Farmer Image">
+            <span class="edit-picture" onclick="editProfilePicture()">✎</span>
+        </div>
+
+        <h2 class="name" id="name">Rishabh Mishra</h2>
+
+        <div class="profile-details-box">
+            <div class="profile-details">
+                <div class="Details">
+                    <label>Age</label>
+                    <span id="age">20</span>
+                </div>
+                <div class="Details">
+                    <label>Phone</label>
+                    <span id="phone">902191627</span>
+                </div>
+                <div class="Details">
+                    <label>Email</label>
+                    <span id="email">rishabh.mishra@example.com</span>
+                </div>
+                <div class="Details">
+                    <label>Location</label>
+                    <span id="location">Madhya Pradesh, India</span>
+                </div>
+                <div class="Details">
+                    <label>Farm Size</label>
+                    <span id="farmSize">15 acres</span>
+                </div>
+                <div class="Details">
+                    <label>Primary Crop</label>
+                    <span id="primaryCrop">Wheat</span>
+                </div>
+            </div>
+        </div>
+
+        <a href="#" class="edit-btn" onclick="toggleEditForm()">Edit Profile</a>
+        <a href="#" class="logout-btn" onclick="confirmLogout()">Log Out</a>
+
+        <div class="edit-form" id="editForm" style="display: none;">
+            <h3>Edit Details</h3>
+            <input type="text" id="editName" placeholder="Enter new name">
+            <input type="text" id="editAge" placeholder="Enter new age">
+            <input type="text" id="editPhone" placeholder="Enter new phone number">
+            <input type="email" id="editEmail" placeholder="Enter new email">
+            <input type="text" id="editLocation" placeholder="Enter new location">
+            <input type="text" id="editFarmSize" placeholder="Enter new farm size">
+            <input type="text" id="editPrimaryCrop" placeholder="Enter new primary crop">
+            <button class="save-btn" onclick="saveProfile()">Save</button>
+            <button class="cancel-btn" onclick="toggleEditForm()">Cancel</button>
+        </div>
+
+        <!-- Popup for Logout Confirmation -->
+        <div class="popup" id="logoutPopup" style="display: none;">
+            <div class="popup-content">
+                <p>Are you sure you want to log out?</p>
+                <button onclick="performLogout()">OK</button>
+                <button onclick="closePopup()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleEditForm() {
+            const editForm = document.getElementById('editForm');
+            editForm.style.display = editForm.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function saveProfile() {
+            const name = document.getElementById('editName').value;
+            const age = document.getElementById('editAge').value;
+            const phone = document.getElementById('editPhone').value;
+            const email = document.getElementById('editEmail').value;
+            const location = document.getElementById('editLocation').value;
+            const farmSize = document.getElementById('editFarmSize').value;
+            const primaryCrop = document.getElementById('editPrimaryCrop').value;
+
+            if (name) document.getElementById('name').textContent = name;
+            if (age) document.getElementById('age').textContent = age;
+            if (phone) document.getElementById('phone').textContent = phone;
+            if (email) document.getElementById('email').textContent = email;
+            if (location) document.getElementById('location').textContent = location;
+            if (farmSize) document.getElementById('farmSize').textContent = farmSize;
+            if (primaryCrop) document.getElementById('primaryCrop').textContent = primaryCrop;
+
+            toggleEditForm();
+        }
+
+        function confirmLogout() {
+            const popup = document.getElementById('logoutPopup');
+            popup.style.display = 'flex'; // Show the popup
+        }
+
+        function closePopup() {
+            const popup = document.getElementById('logoutPopup');
+            popup.style.display = 'none'; // Hide the popup
+        }
+
+        function performLogout() {
+            closePopup();
+            // Redirect to login page after logging out
+            window.location.href = "login.html"; // Update this with your actual login page URL
+        }
+    </script>
+</body>
+</html>

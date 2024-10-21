@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login System with Firebase</title>
+    <link rel="stylesheet" href="styles/login.css">
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyD_BVPwnuwGCc3iEV1xSvV3Vn8oVsDR7pI",
+            authDomain: "smartcrop-5d294.firebaseapp.com",
+            databaseURL: "https://smartcrop-5d294-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "smartcrop-5d294",
+            storageBucket: "smartcrop-5d294.appspot.com",
+            messagingSenderId: "1095300797671",
+            appId: "1:1095300797671:web:117fb77982a8e4a2f17e42",
+            measurementId: "G-LSW13G3T7S"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+
+        // Event listener for DOM content loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            const signupForm = document.getElementById('signup-form');
+            const loginForm = document.getElementById('login-form');
+            const signupContainer = document.getElementById('signup-container');
+            const loginContainer = document.getElementById('login-container');
+            const signupError = document.getElementById('signup-error');
+            const loginError = document.getElementById('login-error');
+
+            // Sign-up event
+            signupForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+                const email = document.getElementById('signup-username').value;
+                const password = document.getElementById('signup-password').value;
+
+                if (validatePassword(password)) {
+                    createUserWithEmailAndPassword(auth, email, password)
+                        .then((userCredential) => {
+                            // Sign-up successful, redirect to login
+                            alert('Sign-up successful! Please log in.');
+                            signupContainer.style.display = 'none';
+                            loginContainer.style.display = 'block';
+                        })
+                        .catch((error) => {
+                            const errorMessage = error.message;
+                            signupError.textContent = errorMessage;
+                        });
+                } else {
+                    signupError.textContent = "Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, one special character, and one number.";
+                }
+            });
+
+            // Log-in event
+            loginForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+                const email = document.getElementById('login-username').value;
+                const password = document.getElementById('login-password').value;
+
+                signInWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        // Log-in successful, redirect to homepage
+                        window.location.href = "homepage.html"; // Ensure this points to the correct relative path
+                    })
+                    .catch((error) => {
+                        const errorMessage = error.message;
+                        loginError.textContent = "Invalid username or password!";
+                    });
+            });
+
+            // Navigation between Sign Up and Log In
+            document.getElementById('go-to-login').addEventListener('click', function (event) {
+                event.preventDefault();
+                signupContainer.style.display = 'none';
+                loginContainer.style.display = 'block';
+            });
+
+            document.getElementById('go-to-signup').addEventListener('click', function (event) {
+                event.preventDefault();
+                loginContainer.style.display = 'none';
+                signupContainer.style.display = 'block';
+            });
+
+            // Password validation function
+            function validatePassword(password) {
+                const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+                return passwordPattern.test(password);
+            }
+        });
+    </script>
+</head>
+<body>
+    <!-- Sign-Up Section -->
+    <div class="container" id="signup-container">
+        <h2>Sign Up</h2>
+        <form id="signup-form">
+            <input type="text" id="signup-username" placeholder="Email" required>
+            <input type="password" id="signup-password" placeholder="Password" required>
+            <button type="submit">Sign Up</button>
+            <div class="error" id="signup-error"></div>
+        </form>
+        <p>Already have an account? <a href="#" id="go-to-login">Log In</a></p>
+    </div>
+
+    <!-- Login Section -->
+    <div class="container" id="login-container" style="display: none;">
+        <h2>Log In</h2>
+        <form id="login-form">
+            <input type="text" id="login-username" placeholder="Email" required>
+            <input type="password" id="login-password" placeholder="Password" required>
+            <button type="submit">Log In</button>
+            <div class="error" id="login-error"></div>
+        </form>
+        <p>Don't have an account? <a href="#" id="go-to-signup">Sign Up</a></p>
+    </div>
+</body>
+</html>
