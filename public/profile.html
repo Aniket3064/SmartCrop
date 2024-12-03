@@ -82,32 +82,92 @@
         </div>
     </div>
 
-    <script>
-        function toggleEditForm() {
-            const editForm = document.getElementById('editForm');
-            editForm.style.display = editForm.style.display === 'block' ? 'none' : 'block';
+<script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-database.js"></script>
+
+<script>
+  // Initialize Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyD_BVPwnuwGCc3iEV1xSvV3Vn8oVsDR7pI",
+    authDomain: "smartcrop-5d294.firebaseapp.com",
+    databaseURL: "https://smartcrop-5d294-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "smartcrop-5d294",
+    storageBucket: "smartcrop-5d294.appspot.com",
+    messagingSenderId: "1095300797671",
+    appId: "1:1095300797671:web:117fb77982a8e4a2f17e42",
+    measurementId: "G-LSW13G3T7S"
+  };
+  firebase.initializeApp(firebaseConfig);
+
+  // On Auth State Changed, load user profile
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      const uid = user.uid;
+
+      // Get the user's profile data from Firebase Database
+      const userRef = firebase.database().ref('users/' + uid);
+      userRef.once('value').then(function(snapshot) {
+        if (snapshot.exists()) {
+          const userData = snapshot.val();
+          document.getElementById('name').textContent = userData.name || '';
+          document.getElementById('age').textContent = userData.age || '';
+          document.getElementById('phone').textContent = userData.phone || '';
+          document.getElementById('email').textContent = userData.email || '';
+          document.getElementById('location').textContent = userData.location || '';
+          document.getElementById('farmSize').textContent = userData.farmSize || '';
+          document.getElementById('primaryCrop').textContent = userData.primaryCrop || '';
         }
+      });
+    } else {
+      // No user signed in, redirect to login page
+      window.location.href = "login.html";
+    }
+  });
 
-        function saveProfile() {
-            const name = document.getElementById('editName').value;
-            const age = document.getElementById('editAge').value;
-            const phone = document.getElementById('editPhone').value;
-            const email = document.getElementById('editEmail').value;
-            const location = document.getElementById('editLocation').value;
-            const farmSize = document.getElementById('editFarmSize').value;
-            const primaryCrop = document.getElementById('editPrimaryCrop').value;
+  // Save profile data to Firebase
+  function saveProfile() {
+    const name = document.getElementById('editName').value;
+    const age = document.getElementById('editAge').value;
+    const phone = document.getElementById('editPhone').value;
+    const email = document.getElementById('editEmail').value;
+    const location = document.getElementById('editLocation').value;
+    const farmSize = document.getElementById('editFarmSize').value;
+    const primaryCrop = document.getElementById('editPrimaryCrop').value;
 
-            if (name) document.getElementById('name').textContent = name;
-            if (age) document.getElementById('age').textContent = age;
-            if (phone) document.getElementById('phone').textContent = phone;
-            if (email) document.getElementById('email').textContent = email;
-            if (location) document.getElementById('location').textContent = location;
-            if (farmSize) document.getElementById('farmSize').textContent = farmSize;
-            if (primaryCrop) document.getElementById('primaryCrop').textContent = primaryCrop;
+    // Get the current user UID
+    const user = firebase.auth().currentUser;
+    if (user) {
+      const uid = user.uid;
+      const userRef = firebase.database().ref('users/' + uid);
 
-            toggleEditForm();
-        }
+      // Update the user's profile data in Firebase Database
+      userRef.set({
+        name: name || document.getElementById('name').textContent,
+        age: age || document.getElementById('age').textContent,
+        phone: phone || document.getElementById('phone').textContent,
+        email: email || document.getElementById('email').textContent,
+        location: location || document.getElementById('location').textContent,
+        farmSize: farmSize || document.getElementById('farmSize').textContent,
+        primaryCrop: primaryCrop || document.getElementById('primaryCrop').textContent
+      }).then(function() {
+        alert('Profile updated successfully!');
+      }).catch(function(error) {
+        console.error('Error updating profile:', error);
+      });
 
+      // Update the profile page with the new data
+      if (name) document.getElementById('name').textContent = name;
+      if (age) document.getElementById('age').textContent = age;
+      if (phone) document.getElementById('phone').textContent = phone;
+      if (email) document.getElementById('email').textContent = email;
+      if (location) document.getElementById('location').textContent = location;
+      if (farmSize) document.getElementById('farmSize').textContent = farmSize;
+      if (primaryCrop) document.getElementById('primaryCrop').textContent = primaryCrop;
+
+      toggleEditForm(); // Hide edit form after saving
+    }
+  }
         function confirmLogout() {
             const popup = document.getElementById('logoutPopup');
             popup.style.display = 'flex'; // Show the popup

@@ -25,7 +25,6 @@ nav a {
     color: white;
     text-decoration: none;
 }
-
 nav a:hover {
     background-color: green;
     color: white;
@@ -47,6 +46,8 @@ h1 img {
     display: flex;
     justify-content: space-between;
     padding: 20px;
+    align-items: center;
+    flex-direction: column; /* For better mobile responsiveness */
 }
 .check-suitability-box {
     background-color: #33333341;
@@ -54,7 +55,7 @@ h1 img {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.709);
     border-radius: 8px;
     width: 250px;
-    margin-bottom: auto;
+    margin-bottom: 20px;
 }
 h2 {
     text-align: center;
@@ -105,6 +106,7 @@ h3 {
 .check-suitability-box button:hover {
     background-color: #45a049;
 }
+
 .parameter-container {
     display: flex;
     flex-direction: column;
@@ -112,9 +114,11 @@ h3 {
     align-content: center;
     background-color: #ffffff9e;
     padding: 20px;
-    margin-right: 5cm;
+    margin: 0 auto;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.484);
+    margin-top: 20px; /* Add space between container and parameter container */
+    width: 80%; /* Center alignment */
 }
 
 .parameters {
@@ -155,4 +159,31 @@ h3 {
 .circle {
     font-size: 20px;
     font-weight: 1000;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .parameter-container {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .parameters {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .parameters {
+        grid-template-columns: 1fr;
+    }
+    
+    .parameter {
+        width: 120px;
+        height: 120px;
+    }
 }

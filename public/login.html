@@ -9,6 +9,7 @@
         // Import Firebase modules
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-database.js";
 
         // Firebase configuration
         const firebaseConfig = {
@@ -25,6 +26,7 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
+        const database = getDatabase(app);
 
         // Event listener for DOM content loaded
         document.addEventListener('DOMContentLoaded', function () {
@@ -40,14 +42,32 @@
                 event.preventDefault();
                 const email = document.getElementById('signup-username').value;
                 const password = document.getElementById('signup-password').value;
+                const name = document.getElementById('signup-name').value;
+                const age = document.getElementById('signup-age').value;
+                const phone = document.getElementById('signup-phone').value;
+                const location = document.getElementById('signup-location').value;
+                const farmSize = document.getElementById('signup-farmSize').value;
+                const primaryCrop = document.getElementById('signup-primaryCrop').value;
 
                 if (validatePassword(password)) {
                     createUserWithEmailAndPassword(auth, email, password)
                         .then((userCredential) => {
-                            // Sign-up successful, redirect to login
-                            alert('Sign-up successful! Please log in.');
-                            signupContainer.style.display = 'none';
-                            loginContainer.style.display = 'block';
+                            const user = userCredential.user;
+                            // Save user additional details to Firebase Database
+                            set(ref(database, 'users/' + user.uid), {
+                                name: name,
+                                age: age,
+                                phone: phone,
+                                location: location,
+                                farmSize: farmSize,
+                                primaryCrop: primaryCrop,
+                                email: email
+                            }).then(() => {
+                                // Sign-up successful, redirect to login
+                                alert('Sign-up successful! Please log in.');
+                                signupContainer.style.display = 'none';
+                                loginContainer.style.display = 'block';
+                            });
                         })
                         .catch((error) => {
                             const errorMessage = error.message;
@@ -103,6 +123,12 @@
         <form id="signup-form">
             <input type="text" id="signup-username" placeholder="Email" required>
             <input type="password" id="signup-password" placeholder="Password" required>
+            <input type="text" id="signup-name" placeholder="Name" required>
+            <input type="text" id="signup-age" placeholder="Age" required>
+            <input type="text" id="signup-phone" placeholder="Phone" required>
+            <input type="text" id="signup-location" placeholder="Location" required>
+            <input type="text" id="signup-farmSize" placeholder="Farm Size" required>
+            <input type="text" id="signup-primaryCrop" placeholder="Primary Crop" required>
             <button type="submit">Sign Up</button>
             <div class="error" id="signup-error"></div>
         </form>

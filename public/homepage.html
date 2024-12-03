@@ -5,6 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SmartCrop Dashboard</title>
     <link rel="stylesheet" href="styles/homepage.css">
+    <style>
+        /* Loading Animation Styles */
+        .loading {
+            display: none; /* Hide by default */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 8px solid #f3f3f3; /* Light grey */
+            border-top: 8px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
 
@@ -25,23 +46,83 @@
         <h1>Dashboard</h1>
         <div class="cards">
             <div class="card">
+                <h2>Location</h2>
+                <div class="circle" id="location">Loading...</div> <!-- Location display -->
+            </div>
+            <div class="card">
                 <h2>Temperature</h2>
-                <div class="circle">28°C</div>
+                <div class="circle" id="temperature">Loading...</div>
             </div>
             <div class="card">
                 <h2>Wind Speed</h2>
-                <div class="circle">12 m/s</div>
+                <div class="circle" id="windSpeed">Loading...</div>
             </div>
             <div class="card">
                 <h2>Humidity</h2>
-                <div class="circle">65%</div>
-            </div>
-            <div class="card">
-                <h2>AQI</h2>
-                <div class="circle">45</div>
+                <div class="circle" id="humidity">Loading...</div>
             </div>
         </div>
     </div>
+
+    <div class="loading" id="loading"></div>
+
+    <script>
+        const loadingIndicator = document.getElementById('loading');
+
+        function showLoading() {
+            loadingIndicator.style.display = 'block'; // Show loading
+        }
+
+        function hideLoading() {
+            loadingIndicator.style.display = 'none'; // Hide loading
+        }
+
+        async function fetchWeatherData() {
+            showLoading(); // Show loading indicator
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(async (position) => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+
+                    const apiKey = '24df42fffb96c0bf65ae110e9af3db29';
+                    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+
+                    try {
+                        const response = await fetch(url);
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        const data = await response.json();
+                        
+                        // Display location and weather data
+                        document.getElementById('location').innerText = data.name; // Set location name
+                        document.getElementById('temperature').innerText = `${data.main.temp}°C`;
+                        document.getElementById('windSpeed').innerText = `${data.wind.speed} m/s`;
+                        document.getElementById('humidity').innerText = `${data.main.humidity}%`;
+                    } catch (error) {
+                        console.error('Failed to fetch weather data:', error);
+                        document.getElementById('location').innerText = 'Failed to fetch';
+                        document.getElementById('temperature').innerText = 'Failed to fetch';
+                        document.getElementById('windSpeed').innerText = 'Failed to fetch';
+                        document.getElementById('humidity').innerText = 'Failed to fetch';
+                    } finally {
+                        hideLoading(); // Hide loading indicator
+                    }
+                }, () => {
+                    alert('Unable to retrieve location.');
+                    document.getElementById('location').innerText = 'Unknown'; // Set location to unknown
+                    hideLoading(); // Hide loading indicator if location retrieval fails
+                });
+            } else {
+                alert('Geolocation is not supported by this browser.');
+                document.getElementById('location').innerText = 'Unknown'; // Set location to unknown
+                hideLoading(); // Hide loading indicator if geolocation is not supported
+            }
+        }
+
+        // Fetch weather data on page load
+        fetchWeatherData();
+    </script>
 
 </body>
 </html>
